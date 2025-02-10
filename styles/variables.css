@@ -1,0 +1,14 @@
+:root {
+  /* Colors */
+  --black-color: #011627;
+  --blue-color: #2ec4b6;
+  --red-color: #e71d36;
+  --orange-color: #ff9f1c;
+  --text-color: #333333;
+  --background-color: #fdfffc;
+
+  /* Fonts */
+  --font-primary: "Nunito", sans-serif;
+
+  /* Common values */
+}
