@@ -2,20 +2,17 @@ export default function initTypingTest(text) {
   const testText = document.querySelector("#test-text");
   const input = document.querySelector("#typing-input");
 
-  // let currentText = text.split(" ").slice(0, 10).join(" ");
-  // let words = text.split(" ");
-  // let currentWordIndex = 10;
   let isTestActive = false;
   let currentIndex = 0;
   let errors = 0;
   let correctChars = 0;
   let charStatus = new Array(text.length).fill(null);
-  // const displayLength = 80;
   const windowSize = 40;
   let windowStart = 0;
   let visibleText = text.slice(windowStart, windowStart + windowSize);
 
   input.disabled = false;
+  input.focus();
 
   function startTest() {
     isTestActive = true;
@@ -37,7 +34,9 @@ export default function initTypingTest(text) {
     for (let i = windowStart; i < windowStart + windowSize; i++) {
       if (i >= text.length) break;
       const char = text[i];
-      if (charStatus[i] === true) {
+      if (i === currentIndex) {
+        displayText += `<span class="current">${char}</span>`;
+      } else if (charStatus[i] === true) {
         displayText += `<span class="correct">${char}</span>`;
       } else if (charStatus[i] === false) {
         displayText += `<span class="error">${char}</span>`;

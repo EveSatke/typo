@@ -23,11 +23,22 @@
       <section>
         <h1 class="main-title">Test your average typing speed!</h1>
       </section>
-      <section class="test-container">
-        <div class="test-text" id="test-text"></div>
-        <div class="input-area">
-          <input type="text" id="typing-input" disabled />
+      <section>
+        <div class="test-container">
+          <div class="test-text" id="test-text"></div>
+          <div class="input-area">
+            <input
+              type="text"
+              id="typing-input"
+              disabled
+              autofocus
+              autocomplete="off"
+              spellcheck="false"
+              autocapitalize="off"
+            />
+          </div>
         </div>
+
         <div class="results-container">
           <div id="timer">60</div>
           <div id="wpm"></div>
