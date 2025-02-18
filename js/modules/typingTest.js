@@ -1,6 +1,11 @@
+import initTimer from "./timer.js";
+import initMetrics from "./metrics.js";
+
 export default function initTypingTest(text) {
   const testText = document.querySelector("#test-text");
   const input = document.querySelector("#typing-input");
+  const timer = initTimer(60);
+  const metrics = initMetrics();
 
   let isTestActive = false;
   let currentIndex = 0;
@@ -16,10 +21,12 @@ export default function initTypingTest(text) {
 
   function startTest() {
     isTestActive = true;
+    timer.start();
   }
 
   function resetTest() {
     isTestActive = false;
+    timer.reset();
   }
 
   function updateVisibleText() {
@@ -47,6 +54,13 @@ export default function initTypingTest(text) {
     testText.innerHTML = displayText;
   }
 
+  function updateMetrics() {
+    const timeElapsed = 60 - timer.getTimeLeft();
+    const wpm = metrics.calculateWPM(correctChars, timeElapsed);
+    const accuracy = metrics.calculateAccuracy(correctChars, errors);
+    metrics.updateMetricsDisplay(wpm, accuracy);
+  }
+
   function handleDelete(e) {
     if (e.inputType === "deleteContentBackward") {
       if (currentIndex > 0) {
@@ -60,6 +74,7 @@ export default function initTypingTest(text) {
       }
       updateVisibleText();
       updateDisplay();
+      updateMetrics();
       console.log("delete", currentIndex);
       return true;
     }
@@ -89,6 +104,7 @@ export default function initTypingTest(text) {
     }
     currentIndex++;
     updateDisplay();
+    updateMetrics();
     console.log(currentIndex, errors, correctChars);
   }
 

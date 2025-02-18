@@ -21,9 +21,9 @@
     </header>
     <main>
       <section>
-        <h1 class="main-title">Test your average typing speed!</h1>
+        <h1 class="main-title">Start typing to test your speed!</h1>
       </section>
-      <section>
+      <section class="test-section">
         <div class="test-container">
           <div class="test-text" id="test-text"></div>
           <div class="input-area">
@@ -40,9 +40,18 @@
         </div>
 
         <div class="results-container">
-          <div id="timer">60</div>
-          <div id="wpm"></div>
-          <div id="accuracy"></div>
+          <div class="result-item">
+            <div id="timer-value">60</div>
+            <div class="result-item-text">sec</div>
+          </div>
+          <div class="result-item">
+            <div id="wpm-value">0</div>
+            <div class="result-item-text">wpm</div>
+          </div>
+          <div class="result-item">
+            <div id="accuracy-value">0</div>
+            <div class="result-item-text">%</div>
+          </div>
         </div>
       </section>
     </main>
