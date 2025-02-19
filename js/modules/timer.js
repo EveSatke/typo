@@ -3,6 +3,7 @@ export default function initTimer(initialTime = 60) {
   const input = document.querySelector("#typing-input");
   let timeLeft = initialTime;
   let timerId = null;
+  let onTimeEndCallback = null;
 
   function updateDisplay() {
     timerDisplay.textContent = timeLeft;
@@ -17,6 +18,9 @@ export default function initTimer(initialTime = 60) {
       if (timeLeft <= 0) {
         stop();
         input.disabled = true;
+        if (onTimeEndCallback) {
+          onTimeEndCallback();
+        }
       }
     }, 1000);
   }
@@ -26,6 +30,10 @@ export default function initTimer(initialTime = 60) {
       clearInterval(timerId);
       timerId = null;
     }
+  }
+
+  function onTimeEnd(callback) {
+    onTimeEndCallback = callback;
   }
 
   function reset() {
@@ -46,5 +54,6 @@ export default function initTimer(initialTime = 60) {
     stop,
     reset,
     getTimeLeft,
+    onTimeEnd,
   };
 }

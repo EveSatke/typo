@@ -5,15 +5,15 @@ body {
 
 .logo {
   position: relative;
-  height: 2.4rem;
-  margin: 2rem auto;
+  height: 3.5rem;
+  margin: 3rem auto;
   width: fit-content;
   display: flex;
 }
 
 .logo::before {
   content: "Typo";
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
   color: var(--blue-color);
   letter-spacing: 0.2em;
@@ -44,12 +44,6 @@ main {
   align-items: center;
 }
 
-.main-title {
-  color: var(--dark-blue-color);
-  font-size: 1.5rem;
-  letter-spacing: 0.05em;
-  margin-top: 0;
-}
 .test-section {
   margin-top: 2rem;
 }
@@ -92,10 +86,23 @@ main {
   border-left: 1px solid var(--black-color);
 }
 
+.restart-button {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.restart-button svg {
+  transition: transform 0.3s ease;
+}
+.restart-button svg:hover {
+  transform: rotate(180deg);
+  cursor: pointer;
+}
+
 .results-container {
   display: flex;
   justify-content: space-around;
-  padding: 6rem 2rem;
+  padding: 4rem 2rem;
 }
 
 .result-item {
@@ -115,4 +122,101 @@ main {
 .result-item-text {
   font-weight: 300;
   font-size: 1.5rem;
+}
+
+.history-section {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  width: 90%;
+  max-width: 700px;
+}
+
+.history-section h2 {
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.history-grid {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0px 12px 32px rgba(0, 27, 71, 0.16);
+}
+
+.history-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  background: var(--blue-color);
+  color: var(--white-color);
+  padding: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+}
+
+.history-items {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+}
+
+.history-item:nth-child(even) {
+  background: var(--even-color);
+}
+
+@media screen and (max-width: 768px) {
+  .test-container {
+    width: 90%;
+    padding: 0.5rem;
+  }
+
+  .test-text {
+    font-size: 1.5rem;
+  }
+
+  .logo::before {
+    font-size: 2rem;
+  }
+
+  .results-container {
+    padding: 2rem 1rem;
+  }
+
+  .result-item {
+    height: 100px;
+    width: 100px;
+    font-size: 1.5rem;
+  }
+}
+@media screen and (max-width: 480px) {
+  .results-container {
+    gap: 1rem;
+  }
+
+  .result-item {
+    height: 80px;
+    width: 80px;
+    font-size: 1.2rem;
+  }
+
+  .result-item-text {
+    font-size: 1rem;
+  }
+
+  .test-text {
+    font-size: 1.2rem;
+  }
+
+  .history-header,
+  .history-item {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
 }

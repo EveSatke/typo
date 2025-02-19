@@ -1,12 +1,17 @@
 import initTimer from "./timer.js";
 import initMetrics from "./metrics.js";
+import fetchApi from "./textProvider.js";
+import initStorage from "./storage.js";
 
-export default function initTypingTest(text) {
+export default function initTypingTest(initialText) {
   const testText = document.querySelector("#test-text");
   const input = document.querySelector("#typing-input");
+  const restartButton = document.querySelector("#restart-button");
   const timer = initTimer(60);
   const metrics = initMetrics();
+  const storage = initStorage();
 
+  let text = initialText;
   let isTestActive = false;
   let currentIndex = 0;
   let errors = 0;
@@ -18,15 +23,41 @@ export default function initTypingTest(text) {
 
   input.disabled = false;
   input.focus();
+  storage.displayHistory();
+
+  timer.onTimeEnd(() => {
+    const wpm = metrics.calculateWPM(currentIndex, 60);
+    const accuracy = metrics.calculateAccuracy(correctChars, errors);
+    storage.saveTestResult(wpm, accuracy);
+  });
 
   function startTest() {
     isTestActive = true;
     timer.start();
   }
 
+  async function changeText() {
+    try {
+      text = await fetchApi();
+      resetTest();
+    } catch (error) {
+      console.error("Failed to fetch text", error);
+    }
+  }
+
   function resetTest() {
     isTestActive = false;
+    currentIndex = 0;
+    errors = 0;
+    correctChars = 0;
+    charStatus = new Array(text.length).fill(null);
+    input.value = "";
+    input.disabled = false;
+    updateVisibleText();
+    updateDisplay();
+    input.focus();
     timer.reset();
+    updateMetrics();
   }
 
   function updateVisibleText() {
@@ -56,7 +87,7 @@ export default function initTypingTest(text) {
 
   function updateMetrics() {
     const timeElapsed = 60 - timer.getTimeLeft();
-    const wpm = metrics.calculateWPM(correctChars, timeElapsed);
+    const wpm = metrics.calculateWPM(currentIndex, timeElapsed);
     const accuracy = metrics.calculateAccuracy(correctChars, errors);
     metrics.updateMetricsDisplay(wpm, accuracy);
   }
@@ -111,6 +142,8 @@ export default function initTypingTest(text) {
   input.addEventListener("input", handleInput);
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") resetTest();
+    if (e.key === "Enter") changeText();
   });
+  restartButton.addEventListener("click", () => changeText());
   testText.textContent = visibleText;
 }
