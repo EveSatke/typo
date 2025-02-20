@@ -2,6 +2,7 @@ import initTimer from "./timer.js";
 import initMetrics from "./metrics.js";
 import fetchApi from "./textProvider.js";
 import initStorage from "./storage.js";
+import showModal from "../components/modal.js";
 
 export default function initTypingTest(initialText) {
   const testText = document.querySelector("#test-text");
@@ -28,7 +29,10 @@ export default function initTypingTest(initialText) {
   timer.onTimeEnd(() => {
     const wpm = metrics.calculateWPM(currentIndex, 60);
     const accuracy = metrics.calculateAccuracy(correctChars, errors);
-    storage.saveTestResult(wpm, accuracy);
+    const { result, isNewBest } = storage.saveTestResult(wpm, accuracy);
+
+    const bestResult = storage.getBestResult();
+    showModal(result, bestResult, isNewBest, changeText);
   });
 
   function startTest() {

@@ -11,13 +11,16 @@ export default function initStorage() {
       accuracy: accuracyResult,
       date: new Date().toISOString(),
     };
+
+    const isNewBest = updateBestResult(result);
+
     history.unshift(result);
 
-    history = history.slice(0, 10);
+    history = history.slice(0, 20);
 
     localStorage.setItem("history", JSON.stringify(history));
     displayHistory();
-    console.log(history);
+    return { result, isNewBest };
   }
 
   function displayHistory() {
@@ -34,7 +37,31 @@ export default function initStorage() {
         <div>${item.accuracy}</div>`;
       historyItems.appendChild(historyItem);
     });
+    if (history.length <= 0) {
+      const historyItem = document.createElement("div");
+      historyItem.innerHTML = `<div class="table-message">Time to make history! Complete your first typing test.</div>`;
+      historyItems.appendChild(historyItem);
+    }
   }
 
-  return { saveTestResult, getHistory, displayHistory };
+  function getBestResult() {
+    const bestResult = JSON.parse(localStorage.getItem("bestResult")) || null;
+    return bestResult;
+  }
+
+  function updateBestResult(result) {
+    const currentBest = getBestResult();
+    if (!currentBest || result.wpm > currentBest.wpm) {
+      localStorage.setItem("bestResult", JSON.stringify(result));
+      return true;
+    }
+    return false;
+  }
+
+  return {
+    saveTestResult,
+    getHistory,
+    displayHistory,
+    getBestResult,
+  };
 }
