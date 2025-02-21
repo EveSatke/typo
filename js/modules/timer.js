@@ -4,6 +4,7 @@ export default function initTimer(initialTime = 60) {
   let timeLeft = initialTime;
   let timerId = null;
   let onTimeEndCallback = null;
+  let onTickCallback = null;
 
   function updateDisplay() {
     timerDisplay.textContent = timeLeft;
@@ -15,6 +16,10 @@ export default function initTimer(initialTime = 60) {
       timeLeft--;
       updateDisplay();
 
+      if (onTickCallback) {
+        onTickCallback(60 - timeLeft);
+      }
+
       if (timeLeft <= 0) {
         stop();
         input.disabled = true;
@@ -23,6 +28,10 @@ export default function initTimer(initialTime = 60) {
         }
       }
     }, 1000);
+  }
+
+  function onTick(callback) {
+    onTickCallback = callback;
   }
 
   function stop() {
@@ -55,5 +64,6 @@ export default function initTimer(initialTime = 60) {
     reset,
     getTimeLeft,
     onTimeEnd,
+    onTick,
   };
 }

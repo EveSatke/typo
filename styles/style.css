@@ -79,11 +79,42 @@ main {
 .correct {
   color: var(--green-color);
 }
+
 .error {
   color: var(--red-color);
 }
+
 .current {
-  border-left: 1px solid var(--black-color);
+  border-left: none;
+  position: relative;
+}
+
+.current::after {
+  content: "";
+  position: absolute;
+  height: 1em;
+  width: 2px;
+  background-color: var(--black-color);
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.current-word {
+  background-color: var(--current-word-color);
+  border-radius: 2px;
+  padding: 2px 0;
 }
 
 .restart-button {
@@ -94,6 +125,7 @@ main {
 .restart-button svg {
   transition: transform 0.3s ease;
 }
+
 .restart-button svg:hover {
   transform: rotate(180deg);
   cursor: pointer;

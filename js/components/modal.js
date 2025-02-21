@@ -38,9 +38,7 @@ function getModalMessage(currentResult, bestResult, isNewBest) {
   if (isNewBest) {
     return {
       heading: "New Personal Best! 🎯",
-      message: `Amazing! You beat your previous record by ${
-        currentResult.wpm - bestResult.wpm
-      } words/min!`,
+      message: "Amazing! You beat your previous record!",
       buttonText: "Let's Keep Going!",
     };
   }

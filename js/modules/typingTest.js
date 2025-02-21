@@ -13,8 +13,10 @@ export default function initTypingTest(initialText) {
   const storage = initStorage();
 
   let text = initialText;
+  let words = text.split(" ");
   let isTestActive = false;
   let currentIndex = 0;
+  let currentWordIndex = 0;
   let errors = 0;
   let correctChars = 0;
   let charStatus = new Array(text.length).fill(null);
@@ -42,10 +44,13 @@ export default function initTypingTest(initialText) {
 
   async function changeText() {
     try {
+      testText.textContent = "Loading...";
       text = await fetchApi();
+      words = text.split(" ");
       resetTest();
     } catch (error) {
       console.error("Failed to fetch text", error);
+      testText.textContent = "Error loading text. Please try again.";
     }
   }
 
@@ -72,11 +77,39 @@ export default function initTypingTest(initialText) {
 
   function updateDisplay() {
     let displayText = "";
+    let wordStart = windowStart;
+    let currentWord = 0;
+
+    // Calculate current word index based on current character position
+    const textUpToCursor = text.slice(0, currentIndex);
+    const currentWordIndex = textUpToCursor.split(" ").length - 1;
+
+    // Count words before window
+    const textBeforeWindow = text.slice(0, windowStart);
+    const lastSpaceBeforeWindow = textBeforeWindow.lastIndexOf(" ");
+    const wordsBeforeWindow =
+      lastSpaceBeforeWindow === -1
+        ? 0
+        : textBeforeWindow.slice(0, lastSpaceBeforeWindow).split(" ").length;
+
+    const visibleCurrentWordIndex = currentWordIndex - wordsBeforeWindow;
 
     for (let i = windowStart; i < windowStart + windowSize; i++) {
       if (i >= text.length) break;
+
+      // Start new word
+      if (i === wordStart) {
+        displayText += `<span class="${
+          currentWord === visibleCurrentWordIndex ? "current-word" : ""
+        }">`;
+      }
+
       const char = text[i];
-      if (i === currentIndex) {
+
+      // Add character with appropriate highlighting
+      if (i === 0 && currentIndex === 0) {
+        displayText += `<span class="current">${char}</span>`;
+      } else if (i === currentIndex) {
         displayText += `<span class="current">${char}</span>`;
       } else if (charStatus[i] === true) {
         displayText += `<span class="correct">${char}</span>`;
@@ -85,7 +118,15 @@ export default function initTypingTest(initialText) {
       } else {
         displayText += char;
       }
+
+      // End word and prepare for next
+      if (char === " " || i === text.length - 1) {
+        displayText += "</span>";
+        wordStart = i + 1;
+        currentWord++;
+      }
     }
+
     testText.innerHTML = displayText;
   }
 
@@ -95,6 +136,10 @@ export default function initTypingTest(initialText) {
     const accuracy = metrics.calculateAccuracy(correctChars, errors);
     metrics.updateMetricsDisplay(wpm, accuracy);
   }
+
+  timer.onTick(() => {
+    updateMetrics();
+  });
 
   function handleDelete(e) {
     if (e.inputType === "deleteContentBackward") {
@@ -109,7 +154,6 @@ export default function initTypingTest(initialText) {
       }
       updateVisibleText();
       updateDisplay();
-      updateMetrics();
       console.log("delete", currentIndex);
       return true;
     }
@@ -119,6 +163,7 @@ export default function initTypingTest(initialText) {
   function handleInput(e) {
     const typedChar = e.target.value[currentIndex];
     const currentChar = text[currentIndex];
+    const currentWord = words[currentWordIndex];
 
     if (!isTestActive) {
       startTest();
@@ -126,6 +171,11 @@ export default function initTypingTest(initialText) {
 
     if (handleDelete(e)) {
       return;
+    }
+
+    if (currentChar === " ") {
+      currentWordIndex++;
+      console.log("current word", currentWord);
     }
 
     updateVisibleText();
@@ -139,7 +189,6 @@ export default function initTypingTest(initialText) {
     }
     currentIndex++;
     updateDisplay();
-    updateMetrics();
     console.log(currentIndex, errors, correctChars);
   }
 
@@ -150,4 +199,6 @@ export default function initTypingTest(initialText) {
   });
   restartButton.addEventListener("click", () => changeText());
   testText.textContent = visibleText;
+
+  updateDisplay();
 }
