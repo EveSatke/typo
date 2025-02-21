@@ -1,8 +1,9 @@
-import initTimer from "./timer.js";
-import initMetrics from "./metrics.js";
-import fetchApi from "./textProvider.js";
-import initStorage from "./storage.js";
+import initTimer from "../utils/timer.js";
+import initMetrics from "../utils/metrics.js";
+import fetchApi from "../services/textProvider.js";
+import initStorage from "../services/storage.js";
 import showModal from "../components/modal.js";
+import displayHistory from "../components/history.js";
 
 export default function initTypingTest(initialText) {
   const testText = document.querySelector("#test-text");
@@ -26,7 +27,7 @@ export default function initTypingTest(initialText) {
 
   input.disabled = false;
   input.focus();
-  storage.displayHistory();
+  displayHistory(storage.getHistory());
 
   timer.onTimeEnd(() => {
     const wpm = metrics.calculateWPM(currentIndex, 60);
@@ -35,6 +36,7 @@ export default function initTypingTest(initialText) {
 
     const bestResult = storage.getBestResult();
     showModal(result, bestResult, isNewBest, changeText);
+    displayHistory(storage.getHistory());
   });
 
   function startTest() {

@@ -12,12 +12,13 @@ export default function initTimer(initialTime = 60) {
 
   function start() {
     if (timerId) return;
+
     timerId = setInterval(() => {
       timeLeft--;
       updateDisplay();
 
       if (onTickCallback) {
-        onTickCallback(60 - timeLeft);
+        onTickCallback(initialTime - timeLeft);
       }
 
       if (timeLeft <= 0) {
