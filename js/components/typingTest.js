@@ -46,6 +46,7 @@ export default function initTypingTest(initialText) {
   function resetTest() {
     input.value = "";
     input.disabled = false;
+    state.reset(state.text);
     display.updateVisibleText();
     display.updateDisplay();
     input.focus();
