@@ -60,9 +60,44 @@ A modern, web-based typing speed test application that helps users measure and i
 
 ## Getting Started
 
-1. Clone the repository
-2. Open `index.html` in your browser
-3. Start typing to begin the test
+1. Clone the repository:
+
+```bash
+git clone https://github.com/EveSatke/typo.git
+cd typo
+```
+
+2. Start a local server (choose one method):
+
+   Using Python:
+
+   ```bash
+   # Python 3
+   python3 -m http.server 8000
+   # or Python 2
+   python -m SimpleHTTPServer 8000
+   ```
+
+   Using Node.js:
+
+   ```bash
+   # Install http-server globally
+   npm install -g http-server
+   # Start the server
+   http-server
+   ```
+
+   Using VS Code:
+
+   - Install "Live Server" extension
+   - Right-click on index.html
+   - Select "Open with Live Server"
+
+3. Open in your browser:
+   - Navigate to `http://localhost:8000` (or the port shown in your terminal)
+   - Start typing to begin the test
+
+Note: Opening index.html directly from the file system won't work due to browser security restrictions on module loading.
 
 ## Controls
 

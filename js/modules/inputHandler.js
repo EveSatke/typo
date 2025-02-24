@@ -1,4 +1,4 @@
-export default function createInputHandler(state, display, timer, metrics) {
+export default function createInputHandler(state, display, timer) {
   const characterManager = {
     updateStatus(index, isCorrect) {
       state.charStatus[index] = isCorrect;
