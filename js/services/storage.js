@@ -21,18 +21,26 @@ class TestResult {
 
 export default function initStorage() {
   let history = [];
+
   try {
-    history = JSON.parse(localStorage.getItem(storageKeys.history));
-    history = history.map((item) => TestResult.fromJSON(item));
+    const storedHistory = localStorage.getItem(storageKeys.history);
+    if (storedHistory) {
+      const parsedHistory = JSON.parse(storedHistory);
+      if (Array.isArray(parsedHistory)) {
+        history = parsedHistory.map((item) => TestResult.fromJSON(item));
+      }
+    }
   } catch (error) {
-    console.error("Failed to load history: ", error);
+    console.warn("Failed to load history, starting fresh:", error);
+    history = [];
   }
 
   function getHistory() {
-    return history;
+    return Array.isArray(history) ? history : [];
   }
 
   function saveTestResult(wpm, accuracy) {
+    if (!history) history = [];
     const result = new TestResult(wpm, accuracy);
     const isNewBest = updateBestResult(result);
 
@@ -42,7 +50,6 @@ export default function initStorage() {
       localStorage.setItem(storageKeys.history, JSON.stringify(history));
     } catch (error) {
       console.error("Failed to save history: ", error);
-      throw error;
     }
 
     return { result, isNewBest };

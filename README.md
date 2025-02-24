@@ -69,35 +69,52 @@ cd typo
 
 2. Start a local server (choose one method):
 
-   Using Python:
+   **Method 1 - VS Code (Recommended - Easiest):**
+
+   1. Install Visual Studio Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+   2. Open VS Code
+   3. Install "Live Server" extension
+   4. Open your project folder in VS Code:
+      - File -> Open Folder -> select the typo folder
+   5. Right-click on `index.html`
+   6. Select "Open with Live Server"
+   7. Your default browser will open automatically with the app running
+
+   **Method 2 - Python:**
 
    ```bash
-   # Python 3
-   python3 -m http.server 8000
-   # or Python 2
-   python -m SimpleHTTPServer 8000
+   # Make sure you're in the project directory first!
+   cd path/to/typo
+
+   # If you have Python 3
+   python3 -m http.server
+   # The site will be available at: http://localhost:8000
    ```
 
-   Using Node.js:
+   **Method 3 - Node.js:**
 
    ```bash
-   # Install http-server globally
+   # Make sure you have Node.js installed first
+   # Install http-server globally (only need to do this once)
    npm install -g http-server
-   # Start the server
+
+   # Then in your project directory:
+   cd path/to/typo
    http-server
    ```
 
-   Using VS Code:
+3. The application will now be running in your browser
 
-   - Install "Live Server" extension
-   - Right-click on index.html
-   - Select "Open with Live Server"
+Note: Opening index.html directly from the file system won't work due to browser security restrictions on module loading. You must use one of the server methods above.
 
-3. Open in your browser:
-   - Navigate to `http://localhost:8000` (or the port shown in your terminal)
-   - Start typing to begin the test
+## Troubleshooting
 
-Note: Opening index.html directly from the file system won't work due to browser security restrictions on module loading.
+If you encounter any errors:
+
+1. Make sure you're in the correct directory when running the server
+2. Check if the port is already in use (try a different port: `python3 -m http.server 8001`)
+3. Clear your browser cache and reload the page
+4. Check the browser's console (F12) for specific error messages
 
 ## Controls
 
