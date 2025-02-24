@@ -23,7 +23,7 @@ export default function initTypingTest(initialText) {
 
   function updateMetrics() {
     const timeElapsed = 60 - timer.getTimeLeft();
-    const wpm = metrics.calculateWPM(state.currentIndex, timeElapsed);
+    const wpm = metrics.calculateWPM(state.correctChars, timeElapsed);
     const accuracy = metrics.calculateAccuracy(
       state.correctChars,
       state.errors
@@ -58,7 +58,9 @@ export default function initTypingTest(initialText) {
   displayHistory(storage.getHistory());
 
   timer.onTimeEnd(() => {
-    const wpm = metrics.calculateWPM(state.currentIndex, 60);
+    input.disabled = true;
+    display.updateDisplay();
+    const wpm = metrics.calculateWPM(state.correctChars, 60);
     const accuracy = metrics.calculateAccuracy(
       state.correctChars,
       state.errors

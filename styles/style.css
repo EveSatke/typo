@@ -50,6 +50,12 @@ main {
   font-size: 2rem;
   word-wrap: break-word;
   white-space: pre-wrap;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.test-text:has(+ .input-area input:disabled) {
+  opacity: 0.4;
 }
 
 .test-container {
@@ -97,6 +103,11 @@ main {
   top: 50%;
   transform: translateY(-50%);
   animation: blink 1s step-end infinite;
+  opacity: 1;
+}
+
+.test-text:has(+ .input-area input:disabled) .current::after {
+  opacity: 0;
 }
 
 @keyframes blink {

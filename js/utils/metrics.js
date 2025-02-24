@@ -2,12 +2,12 @@ export default function initMetrics() {
   const wpmDisplay = document.querySelector("#wpm-value");
   const accuracyDisplay = document.querySelector("#accuracy-value");
 
-  function calculateWPM(totalChars, timeElapsed) {
+  function calculateWPM(correctChars, timeElapsed) {
     if (timeElapsed <= 0) {
       return 0;
     }
     const minutes = timeElapsed / 60;
-    const WPM = Math.round(totalChars / 5 / minutes);
+    const WPM = Math.round(correctChars / 5 / minutes);
     return WPM;
   }
 
