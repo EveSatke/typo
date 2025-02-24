@@ -19,7 +19,7 @@ export default function initTypingTest(initialText) {
 
   const state = createTypingState(initialText);
   const display = createDisplayManager(testText, state);
-  const inputHandler = createInputHandler(state, display, timer, metrics);
+  const inputHandler = createInputHandler(state, display, timer);
 
   function updateMetrics() {
     const timeElapsed = 60 - timer.getTimeLeft();
