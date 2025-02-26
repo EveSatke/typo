@@ -1,9 +1,4 @@
-const storageKeys = {
-  history: "history",
-  bestResult: "bestResult",
-};
-
-const maxHistoryItems = 20;
+import config from "../../config.js";
 
 class TestResult {
   constructor(wpm, accuracy) {
@@ -23,7 +18,7 @@ export default function initStorage() {
   let history = [];
 
   try {
-    const storedHistory = localStorage.getItem(storageKeys.history);
+    const storedHistory = localStorage.getItem(config.storage.keys.history);
     if (storedHistory) {
       const parsedHistory = JSON.parse(storedHistory);
       if (Array.isArray(parsedHistory)) {
@@ -42,22 +37,26 @@ export default function initStorage() {
   function saveTestResult(wpm, accuracy) {
     if (!history) history = [];
     const result = new TestResult(wpm, accuracy);
+    const wasFirstAttempt = getBestResult() === null;
     const isNewBest = updateBestResult(result);
 
     try {
       history.unshift(result);
-      history = history.slice(0, maxHistoryItems);
-      localStorage.setItem(storageKeys.history, JSON.stringify(history));
+      history = history.slice(0, config.storage.maxHistoryItems);
+      localStorage.setItem(
+        config.storage.keys.history,
+        JSON.stringify(history)
+      );
     } catch (error) {
       console.error("Failed to save history: ", error);
     }
 
-    return { result, isNewBest };
+    return { result, isNewBest, wasFirstAttempt };
   }
 
   function getBestResult() {
     try {
-      const bestResult = localStorage.getItem(storageKeys.bestResult);
+      const bestResult = localStorage.getItem(config.storage.keys.bestResult);
       return bestResult ? TestResult.fromJSON(JSON.parse(bestResult)) : null;
     } catch (error) {
       console.error("Failed to get best result: ", error);
@@ -69,7 +68,10 @@ export default function initStorage() {
     const currentBest = getBestResult();
     if (!currentBest || result.wpm > currentBest.wpm) {
       try {
-        localStorage.setItem(storageKeys.bestResult, JSON.stringify(result));
+        localStorage.setItem(
+          config.storage.keys.bestResult,
+          JSON.stringify(result)
+        );
         return true;
       } catch (error) {
         console.error("Failed to update best result: ", error);

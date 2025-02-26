@@ -25,8 +25,13 @@ export const modalTemplate = `
       </div>
     </div>`;
 
-function getModalMessage(currentResult, bestResult, isNewBest) {
-  if (!bestResult) {
+function getModalMessage(
+  currentResult,
+  bestResult,
+  isNewBest,
+  wasFirstAttempt
+) {
+  if (wasFirstAttempt) {
     return {
       heading: "Great Start! 🎉",
       message:
@@ -61,6 +66,7 @@ export default function showModal(
   currentResult,
   bestResult,
   isNewBest,
+  wasFirstAttempt,
   onTryAgain
 ) {
   const modalDisplay = document.querySelector(".modal");
@@ -70,7 +76,12 @@ export default function showModal(
   const modalMessage = document.querySelector("#modal-message");
   const tryAgainButton = document.querySelector("#try-again-button");
   const closeButton = document.querySelector("#modal-close");
-  const modalContent = getModalMessage(currentResult, bestResult, isNewBest);
+  const modalContent = getModalMessage(
+    currentResult,
+    bestResult,
+    isNewBest,
+    wasFirstAttempt
+  );
 
   modalWpm.textContent = currentResult.wpm;
   modalAccuracy.textContent = currentResult.accuracy;

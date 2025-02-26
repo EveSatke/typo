@@ -7,13 +7,14 @@ import initStorage from "../services/storage.js";
 import displayHistory from "../components/history.js";
 import showModal from "../components/modal.js";
 import fetchApi from "../services/textProvider.js";
+import config from "../../config.js";
 
 export default function initTypingTest(initialText) {
   const testText = document.querySelector("#test-text");
   const input = document.querySelector("#typing-input");
   const restartButton = document.querySelector("#restart-button");
 
-  const timer = initTimer(60);
+  const timer = initTimer(config.app.defaultTestDuration);
   const metrics = initMetrics();
   const storage = initStorage();
 
@@ -66,8 +67,17 @@ export default function initTypingTest(initialText) {
       state.correctChars,
       state.errors
     );
-    const { result, isNewBest } = storage.saveTestResult(wpm, accuracy);
-    showModal(result, storage.getBestResult(), isNewBest, changeText);
+    const { result, isNewBest, wasFirstAttempt } = storage.saveTestResult(
+      wpm,
+      accuracy
+    );
+    showModal(
+      result,
+      storage.getBestResult(),
+      isNewBest,
+      wasFirstAttempt,
+      changeText
+    );
     displayHistory(storage.getHistory());
   });
 

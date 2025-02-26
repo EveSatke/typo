@@ -121,3 +121,48 @@ If you encounter any errors:
 - `Enter` - Get new text
 - `Escape` - Reset current test
 - Click restart button or finish test to try again
+
+## Configuration
+
+The application uses a centralized configuration system defined in `config.js`. This file contains various settings organized into three main categories:
+
+### API Configuration
+
+```javascript
+const apiConfig = {
+  poetryApi: "https://poetrydb.org/random,linecount/1;14/lines",
+  defaultText: "...",
+};
+```
+
+- `poetryApi`: Endpoint for fetching random poetry (14 lines) from PoetryDB
+- `defaultText`: Default text used for typing tests when no other content is loaded
+
+### Storage Configuration
+
+```javascript
+const storageConfig = {
+  keys: {
+    history: "history",
+    bestResult: "bestResult",
+  },
+  maxHistoryItems: 20,
+};
+```
+
+- `keys`: Storage keys used for persisting data
+  - `history`: Key for storing test history
+  - `bestResult`: Key for storing the user's best typing test result
+- `maxHistoryItems`: Maximum number of history items to store (20)
+
+### Application Settings
+
+```javascript
+const appConfig = {
+  defaultTestDuration: 60,
+};
+```
+
+- `defaultTestDuration`: Default typing test duration in seconds (60)
+
+These configuration options can be modified in the `config.js` file to customize the application's behavior.
