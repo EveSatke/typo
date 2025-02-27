@@ -26,11 +26,7 @@ export default function createDisplayManager(testText, state) {
         ? 0
         : textBeforeWindow.slice(0, lastSpaceBeforeWindow).split(" ").length;
 
-    return {
-      currentWordIndex,
-      wordsBeforeWindow,
-      visibleCurrentWordIndex: currentWordIndex - wordsBeforeWindow,
-    };
+    return currentWordIndex - wordsBeforeWindow;
   }
 
   function getCharacterStyle(index, state) {
@@ -52,7 +48,7 @@ export default function createDisplayManager(testText, state) {
 
     // Count words before window
 
-    const { visibleCurrentWordIndex } = calculateWordIndices(state);
+    const visibleCurrentWordIndex = calculateWordIndices(state);
     for (
       let i = state.windowStart;
       i < state.windowStart + state.windowSize;
