@@ -3,7 +3,7 @@
 A modern, web-based typing speed test application that helps users measure and improve their typing skills.
 
 <div align="center">
-  <img src="./assets/test-result-UI.png" alt="Main Interface" width="600"/>
+  <img src="./assets/test-UI.png" alt="Main Interface" width="600"/>
   <p><em>Main Interface - Typing Test Application</em></p>
   
   <img src="./assets/test-result-UI.png" alt="Results Screen" width="600"/>
