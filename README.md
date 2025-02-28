@@ -2,6 +2,17 @@
 
 A modern, web-based typing speed test application that helps users measure and improve their typing skills.
 
+<div align="center">
+  <img src="./assets/test-result-UI.png" alt="Main Interface" width="600"/>
+  <p><em>Main Interface - Typing Test Application</em></p>
+  
+  <img src="./assets/test-result-UI.png" alt="Results Screen" width="600"/>
+  <p><em>Results Modal </em></p>
+
+  <img src="./assets/history-UI.png" alt="Results Screen" width="600"/>
+  <p><em>Results History Screen </em></p>
+</div>
+
 ## Features
 
 - Real-time typing speed measurement (WPM - Words Per Minute)
